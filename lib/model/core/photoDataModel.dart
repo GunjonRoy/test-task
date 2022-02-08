@@ -1,5 +1,8 @@
 
-class PhotosList {
+
+
+class PhotosList{
+
   final List<PhotoDataModel>? photos;
 
   PhotosList({

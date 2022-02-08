@@ -1,43 +1,48 @@
 import 'package:flutter/material.dart';
-import 'package:photo_gallery/core/controller/full_screen_data.dart';
-import 'package:photo_gallery/core/model/photoDataModel.dart';
-import 'package:photo_gallery/core/service/photoApiService.dart';
-import 'package:photo_gallery/ui/full_screen_view.dart';
+import 'package:photo_gallery/model/Helper/photo_load_helper.dart';
+import 'package:photo_gallery/provider/photo_list_provider.dart';
+import 'package:photo_gallery/provider/photo_view_data_provider.dart';
+import 'package:photo_gallery/model/core/photoDataModel.dart';
+import 'package:photo_gallery/view/photo_view_page.dart';
 import 'package:provider/provider.dart';
 
 class PhotoGallery extends StatelessWidget {
   const PhotoGallery({Key? key}) : super(key: key);
 
   void _setFullScreenImageData(BuildContext context,String imageUrl) {
-    Provider.of<FullScreenData>(context,listen: false).setImageUrl(imageUrl);
+    Provider.of<PhotoViewDataProvider>(context,listen: false).setImageUrl(imageUrl);
   }
 
   @override
   Widget build(BuildContext context) {
-    final apiService = PhotoApiRequest();
-    final fullScreenData=Provider.of<FullScreenData>(context,listen: false);
+    //final apiService = PhotoListProvider();
+    final photoList=Provider.of<PhotoListProvider>(context);
+    photoList.loadTwentyPhotos();
+    final fullScreenData=Provider.of<PhotoViewDataProvider>(context,listen: false);
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.grey,
         title: Center(child: Text("Photo Gallery")),
       ),
-      body: FutureBuilder(
-        future: apiService.loadPhotosList(),
-        builder: (context, data) {
-          if (data.hasError) {
-            print(data.error.toString());
-            return Center(child: Text("${data.error}"));
-          } else if (data.hasData) {
-            var items = data.data as List<PhotoDataModel>;
-            print(items[0].url.toString());
-            //print(items);
-            return GridView.builder(
+      // body:
+      // FutureBuilder(
+      //   future: apiService.loadPhotosList(),
+      //   builder: (context, data) {
+      //     if (data.hasError) {
+      //       print(data.error.toString());
+      //       return Center(child: Text("${data.error}"));
+      //     } else if (data.hasData) {
+      //       var items = data.data as List<PhotoDataModel>;
+      //       print(items[0].url.toString());
+      //       //print(items);
+      //       return
+      body:   GridView.builder(
               scrollDirection: Axis.vertical,
               padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
               //physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              itemCount: items == null ? 0 : items.length,
+              itemCount: photoList.loadedPhotos.length == null ? 0 : photoList.loadedPhotos.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 crossAxisSpacing: 5,
@@ -46,11 +51,11 @@ class PhotoGallery extends StatelessWidget {
                 mainAxisExtent: MediaQuery.of(context).size.height * .15,
               ),
               itemBuilder: (context, index) {
+                final items=photoList.loadedPhotos[index];
                 return GestureDetector(
                   onTap: () {
-
-                    print(items[index].downloadUrl.toString()+">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-                    fullScreenData.setImageUrl(items[index].downloadUrl.toString());
+                    print(items.downloadUrl.toString()+">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+                    fullScreenData.setImageUrl(items.downloadUrl.toString());
 
                     showDialog(
                       context: context,
@@ -65,7 +70,7 @@ class PhotoGallery extends StatelessWidget {
                     decoration: BoxDecoration(
                       image: DecorationImage(
                           image:
-                              NetworkImage(items[index].downloadUrl.toString()),
+                              NetworkImage(items.downloadUrl.toString()),
                           fit: BoxFit.contain),
                       boxShadow: [
                         BoxShadow(
@@ -80,14 +85,8 @@ class PhotoGallery extends StatelessWidget {
                   ),
                 );
               },
-            );
-          } else {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
-      ),
+            )
+
     );
   }
 }

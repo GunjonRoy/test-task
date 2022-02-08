@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:photo_gallery/core/controller/full_screen_data.dart';
-import 'package:photo_gallery/ui/photo_gallery_page.dart';
+import 'package:photo_gallery/provider/photo_list_provider.dart';
+import 'package:photo_gallery/provider/photo_view_data_provider.dart';
+import 'package:photo_gallery/view/photo_gallery_page.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -15,7 +16,8 @@ class MyApp extends StatelessWidget{
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider.value(value: FullScreenData()),
+        ChangeNotifierProvider.value(value: PhotoViewDataProvider()),//PhotoViewDataProvider
+        ChangeNotifierProvider.value(value: PhotoListProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
