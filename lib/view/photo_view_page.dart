@@ -7,21 +7,6 @@ import 'package:provider/provider.dart';
 class FullScreenView extends StatelessWidget {
   const FullScreenView({Key? key}) : super(key: key);
 
-  //late TransformationController controller;
-
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //
-  //   controller =TransformationController();
-  // }
-  // @override
-  // void dispose() {
-  //   // TODO: implement dispose
-  //   super.dispose();
-  //   controller.dispose();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -55,6 +40,7 @@ class FullScreenView extends StatelessWidget {
             final value =transformationController.controller!.value.isIdentity() ?zoomed:Matrix4.identity();
             //transformationController.initTransFormationState();
             transformationController.setControllerValue(value);
+
             //controller.value=value;
           },
           child: InteractiveViewer(

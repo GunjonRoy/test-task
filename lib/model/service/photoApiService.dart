@@ -8,7 +8,7 @@ class PhotoApiService with ChangeNotifier{
   int limit=0;
   void setPageAndLimit(){
     this.page=1;
-    this.limit=this.limit+20;
+    this.limit=this.limit+8;
     notifyListeners();
   }
 
@@ -17,11 +17,9 @@ class PhotoApiService with ChangeNotifier{
     setPageAndLimit();
 
     final response = await http.get(
+
       Uri.parse("https://picsum.photos/v2/list?page="+page.toString()+"&limit="+limit.toString()),//"https://picsum.photos/v2/list"),
-      // headers: {
-      //   "page": "1",
-      //   "limit": "20",
-      // },
+
     );
 
     if (response.statusCode == 200) {
@@ -32,11 +30,4 @@ class PhotoApiService with ChangeNotifier{
     }
   }
 
-  // Future loadPhotosList() async {
-  //   String jsonPhotos = await loadPhotoJson();
-  //   final jsonResponse = json.decode(jsonPhotos);
-  //   PhotosList photosList = PhotosList.fromJson(jsonResponse);
-  //   print("photos " + photosList.photos![0].downloadUrl!.toString());
-  //   return photosList.photos;
-  // }
 }

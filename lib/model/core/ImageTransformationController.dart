@@ -9,17 +9,14 @@ class ImageTransformationController{
 
   void initTransFormationState(){
     controller= TransformationController();
-    //notifyListeners();
   }
 
   void disposeTransformation(){
     controller!.dispose();
-    //notifyListeners();
   }
 
   void setControllerValue(var value){
     controller!.value=value;
-    //notifyListeners();
   }
 
 
