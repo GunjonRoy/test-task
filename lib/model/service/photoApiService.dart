@@ -1,17 +1,27 @@
-import 'dart:convert';
 
-//import 'package:photo_gallery/core/model/photoDataModel.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
-import 'package:photo_gallery/model/core/photoDataModel.dart';
 
-class PhotoApiService {
+class PhotoApiService with ChangeNotifier{
+
+  int page=1;
+  int limit=0;
+  void setPageAndLimit(){
+    this.page=1;
+    this.limit=this.limit+20;
+    notifyListeners();
+  }
+
   Future<String> loadPhotoJson() async {
+
+    setPageAndLimit();
+
     final response = await http.get(
-      Uri.parse("https://picsum.photos/v2/list"),
-      headers: {
-        "page": "1",
-        "limit": "20",
-      },
+      Uri.parse("https://picsum.photos/v2/list?page="+page.toString()+"&limit="+limit.toString()),//"https://picsum.photos/v2/list"),
+      // headers: {
+      //   "page": "1",
+      //   "limit": "20",
+      // },
     );
 
     if (response.statusCode == 200) {

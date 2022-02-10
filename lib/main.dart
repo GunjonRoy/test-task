@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:photo_gallery/provider/photo_list_provider.dart';
-import 'package:photo_gallery/provider/photo_view_data_provider.dart';
-import 'package:photo_gallery/view/photo_gallery_page.dart';
+import 'model/service/photoApiService.dart';
+import 'provider/photo_list_provider.dart';
+import 'provider/photo_view_data_provider.dart';
+import 'provider/scrollController.dart';
+import 'view/photo_gallery_page.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -17,7 +19,9 @@ class MyApp extends StatelessWidget{
     return MultiProvider(
       providers: [
         ChangeNotifierProvider.value(value: PhotoViewDataProvider()),//PhotoViewDataProvider
-        ChangeNotifierProvider.value(value: PhotoListProvider()),
+        ChangeNotifierProvider.value(value: PhotoListProvider()),//PhotoApiService
+        ChangeNotifierProvider.value(value: PhotoApiService()),//GalleryScrollController
+        ChangeNotifierProvider.value(value: GalleryScrollController()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -34,7 +38,7 @@ class MyApp extends StatelessWidget{
           // is not restarted.
           //primarySwatch: Colors.blue,
         ),
-        home: const PhotoGallery(),
+        home: PhotoGallery(),
       ),
     );
   }

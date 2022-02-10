@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:photo_gallery/model/core/ImageTransformationController.dart';
-import 'package:photo_gallery/provider/photo_view_data_provider.dart';
-import 'package:photo_gallery/model/core/ImageTapDownDetails.dart';
+import '../model/core/ImageTransformationController.dart';
+import '../provider/photo_view_data_provider.dart';
+import '../model/core/ImageTapDownDetails.dart';
 import 'package:provider/provider.dart';
 
 class FullScreenView extends StatelessWidget {
