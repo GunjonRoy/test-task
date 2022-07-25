@@ -15,6 +15,7 @@ class PhotoListProvider with ChangeNotifier{
     loadedPhotos = [...await photoLoadHelper.loadTenPhotosList()];
     for(int i=0;i<loadedPhotos.length;i++){
       print("PhotoListProvider"+i.toString());
+      print("Rahim vai is best");
       print(loadedPhotos[i].toString());
     }
     notifyListeners();
